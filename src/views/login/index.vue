@@ -11,6 +11,7 @@
                 clearable
                 label="手机号"
                 placeholder="请输入手机号"
+                :error-message="errors.mobile"
             />
 
             <van-field
@@ -19,6 +20,7 @@
                 label="验证码"
                 placeholder="请输入验证码"
                 required
+                :error-message="errors.code"
             />
         </van-cell-group>
         <!-- 按钮 -->
@@ -48,13 +50,34 @@ export default {
         mobile: '15236485854',
         code: '123456'
       },
-      loginLoading: false
+      loginLoading: false,
+      errors: {
+        mobile: '',
+        code: ''
+      }
     }
   },
 
   methods: {
     async handleLogin () {
       try {
+        const { mobile, code } = this.user
+        // 定义正则
+        const reg = /^1[3456789]\d{9}$/
+        const reg2 = /\d{6}/
+        // 表单验证
+        if (reg.test(mobile)) {
+          this.errors.mobile = ''
+        } else {
+          this.errors.mobile = '手机号输入不正确'
+          return
+        }
+        if (reg2.test(code)) {
+          this.errors.code = ''
+        } else {
+          this.errors.code = '验证码错误'
+          return
+        }
         // 点击登录,开始loading
         this.loginLoading = true
         const data = await login(this.user)
@@ -62,9 +85,9 @@ export default {
         // 提交mutation,完成对状态的修改
         this.$store.commit('saveItem', data)
         // 登录成功,先跳转首页
-        // this.$router.push({
-        //     name: 'home'
-        // })
+        this.$router.push({
+            name: 'home'
+        })
         // 登录成功,结束loading
         this.loginLoading = false
       } catch (err) {
