@@ -48,7 +48,13 @@ export default {
     async handleLogin () {
       try {
         const data = await login(this.user)
-        console.log(data)
+        // console.log(data)
+        // 提交mutation,完成对状态的修改
+        this.$store.commit('saveItem', data)
+        // 登录成功,先跳转首页
+        // this.$router.push({
+        //     name: 'home'
+        // })
       } catch (err) {
         console.log(err)
         console.log('登录失败')
