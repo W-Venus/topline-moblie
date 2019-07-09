@@ -2,10 +2,18 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// 测试引入是否成功
-import { Button } from 'vant'
+// 开发阶段导入所有组件和样式
+import Vant from 'vant'
+import 'vant/lib/index.css'
+// 引入amfe-flexible
+import 'amfe-flexible'
 
-Vue.use(Button)
+Vue.use(Vant)
+
+// 按需导入组件
+// import { Button } from 'vant'
+
+// Vue.use(Button)
 Vue.config.productionTip = false
 
 new Vue({
