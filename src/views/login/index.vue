@@ -86,7 +86,7 @@ export default {
         this.$store.commit('saveItem', data)
         // 登录成功,先跳转首页
         this.$router.push({
-            name: 'home'
+          name: 'home'
         })
         // 登录成功,结束loading
         this.loginLoading = false
