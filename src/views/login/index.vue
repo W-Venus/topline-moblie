@@ -23,26 +23,38 @@
         </van-cell-group>
         <!-- 按钮 -->
         <div class="login-btn-box">
-            <van-button class="login-btn" type="info" size="large">登录</van-button>
+            <van-button class="login-btn" type="info" size="large" @click.prevent="handleLogin">登录</van-button>
         </div>
     </form>
   </div>
 </template>
 
 <script>
+// 引入login接口
+import { login } from '@/api/user'
 export default {
-  name: 'login',
+  name: 'loginIndex',
 
   data () {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '15236485854',
+        code: '123456'
       }
     }
   },
 
-  methods: {}
+  methods: {
+    async handleLogin () {
+      try {
+        const data = await login(this.user)
+        console.log(data)
+      } catch (err) {
+        console.log(err)
+        console.log('登录失败')
+      }
+    }
+  }
 }
 </script>
 
