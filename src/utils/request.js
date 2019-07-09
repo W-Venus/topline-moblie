@@ -1,3 +1,4 @@
+// 封装axios
 import axios from 'axios'
 // 配置基准路径
 const request = axios.create({

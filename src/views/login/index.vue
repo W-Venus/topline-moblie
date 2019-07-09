@@ -6,7 +6,7 @@
     <form>
         <van-cell-group>
             <van-field
-                v-model="user.moblie"
+                v-model="user.mobile"
                 required
                 clearable
                 label="手机号"
@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       user: {
-        moblie: '',
+        mobile: '',
         code: ''
       }
     }
