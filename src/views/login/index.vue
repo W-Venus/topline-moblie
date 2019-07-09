@@ -21,6 +21,7 @@
                 required
             />
         </van-cell-group>
+        <!-- 按钮 -->
         <div class="login-btn-box">
             <van-button class="login-btn" type="info" size="large">登录</van-button>
         </div>
