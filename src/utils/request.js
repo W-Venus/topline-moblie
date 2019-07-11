@@ -16,7 +16,6 @@ request.interceptors.request.use(function (config) {
   if (user) {
     config.headers.Authorization = `Bearer ${user.token}`
   }
-  // 没有登录,原样返回
   return config
 }, function (error) {
   return Promise.reject(error)
