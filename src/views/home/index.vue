@@ -4,7 +4,7 @@
     <van-nav-bar class="home-nav" title="首页" fixed/>
     <!-- /头部 -->
     <van-tabs class="channel-tabs" v-model="active">
-      <van-tab title="推荐">
+      <van-tab :title="item.name" v-for="item in channels" :key="item.id">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <!-- 列表 -->
           <van-list
@@ -22,9 +22,6 @@
         <!-- /列表 -->
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="热门话题">内容 2</van-tab>
-      <van-tab title="科技动态">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
     </van-tabs>
     <!-- 底部 -->
     <van-tabbar v-model="footerTabs">
@@ -38,11 +35,14 @@
 </template>
 
 <script>
+import { getUserChannel } from '@/api/channel'
+import { getUser } from '@/utils/auth'
 export default {
   name: 'homeIndex',
 
   data () {
     return {
+      channels: [], // 频道数据
       active: 0,
       footerTabs: 0,
       list: [],
@@ -51,8 +51,12 @@ export default {
       isLoading: false // 下拉刷新加载完成
     }
   },
-
+  created () {
+    // 初始化频道数据
+    this.firstChannel()
+  },
   methods: {
+    // 上拉刷新
     onLoad () {
       // 异步更新数据
       setTimeout(() => {
@@ -68,10 +72,29 @@ export default {
         }
       }, 500)
     },
+    // 下拉刷新
     onRefresh () {
       setTimeout(() => {
         this.isLoading = false
       }, 500)
+    },
+    async firstChannel () {
+      try {
+        // 从本地获取频道数据
+        const localChannels = getUser('channels')
+        // 判断是否有本地数据
+        if (localChannels) {
+          // 有本地数据,就使用本地数据
+          this.channels = localChannels
+        } else {
+          // 没有本地数据,使用默认的
+          const data = await getUserChannel()
+          // console.log(data)
+          this.channels = data.channels
+        }
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }

@@ -1,12 +1,22 @@
 // 封装axios
 import axios from 'axios'
+// 加载store
+import store from '@/store'
 // 配置基准路径
 const request = axios.create({
-  baseURL: 'http://toutiao.course.itcast.cn'
+  // baseURL: 'http://toutiao.course.itcast.cn' // 本地接口
+  baseURL: 'http://ttapi.research.itcast.cn/' // 在线接口
 })
 
 // 请求拦截器
 request.interceptors.request.use(function (config) {
+  // 获取vuex容器中的用户信息
+  const { user } = store.state
+  // 判断,如果用户登录了,统一给接口添加token
+  if (user) {
+    config.headers.Authorization = `Bearer ${user.token}`
+  }
+  // 没有登录,原样返回
   return config
 }, function (error) {
   return Promise.reject(error)
