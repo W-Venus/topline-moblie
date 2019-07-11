@@ -36,7 +36,6 @@
 
 <script>
 import { getUserChannel } from '@/api/channel'
-import { getUser } from '@/utils/auth'
 export default {
   name: 'homeIndex',
 
@@ -81,7 +80,7 @@ export default {
     async firstChannel () {
       try {
         // 从本地获取频道数据
-        const localChannels = getUser('channels')
+        const localChannels = window.localStorage.getItem('channels')
         // 判断是否有本地数据
         if (localChannels) {
           // 有本地数据,就使用本地数据
