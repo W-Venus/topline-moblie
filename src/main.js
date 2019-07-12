@@ -9,12 +9,14 @@ import 'vant/lib/index.css'
 import 'amfe-flexible'
 
 Vue.use(Vant)
-
-// Vue.prototype.$sleep = time => {
-//   return new Promise((resolve, reject) => {
-//     window.setTimeout(resolve, time)
-//   })
-// }
+// 封装一个定时器
+Vue.prototype.$sleep = time => {
+  return new Promise((resolve, reject) => {
+    window.setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
 
 // 按需导入组件
 // import { Button } from 'vant'

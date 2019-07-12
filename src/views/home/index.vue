@@ -63,11 +63,13 @@ export default {
   methods: {
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
+      // 调用定时器,让上拉加载更多有一个缓冲
+      await this.$sleep(800)
       // console.log(111)
       let data = []
       // 初始化请求频道内文章列表,获取数据
       data = await this.channelArticles()
-      console.log(data)
+      // console.log(data)
       // 初次得到数据中文章列表是空,并返回了一个时间戳
       // 我们可以根据这个时间戳去获取上次的数据
       if (data.pre_timestamp && !data.results.length) {
@@ -75,7 +77,7 @@ export default {
         // 重新发请求,请求数据
         data = await this.channelArticles()
       }
-      console.log(data)
+      // console.log(data)
       // console.log(data.pre_timestamp)
       // 加载完成之后,更新时间戳
       this.currentChannels.timestamp = data.pre_timestamp
