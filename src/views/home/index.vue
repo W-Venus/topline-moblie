@@ -5,7 +5,12 @@
     <!-- /头部 -->
     <van-tabs class="channel-tabs" v-model="active">
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-pull-refresh
+          :success-text="item.pullRefresh"
+          :success-duration="600"
+          v-model="item.pullLoading"
+          @refresh="onRefresh"
+        >
           <!-- 列表 -->
           <van-list
             v-model="item.upLoading"
@@ -70,7 +75,7 @@ export default {
       // 初始化请求频道内文章列表,获取数据
       data = await this.channelArticles()
       // console.log(data)
-      
+
       // 先判断时间戳和数据列表时否为空
       // 如果为空的话,说明没有数据了,此时需要结束列表加载状态
       if (!data.pre_timestamp && !data.results.length) {
@@ -99,10 +104,25 @@ export default {
       this.currentChannels.upLoading = false
     },
     // 下拉刷新
-    onRefresh () {
-      setTimeout(() => {
-        this.isLoading = false
-      }, 500)
+    async onRefresh () {
+      // 将上拉请求数据完成后的时间戳进行备份,为了防止没有最新数据时,文章列表为空
+      const timestamp = this.currentChannels.timestamp
+      // 再改变时间戳为最新数据
+      this.currentChannels.timestamp = Date.now()
+      // 调用文章列表函数请求数据
+      const data = await this.channelArticles()
+      // console.log(data)
+      // 判断是否有最新数据
+      if (data.results.length) {
+        // 如果有最新数据,则重置文章列表
+        this.currentChannels.articles = data.results
+        this.$toast('刷新成功')
+      } else {
+        // 如果没有最新数据,则添加一个提示消息
+        this.currentChannels.pullRefresh = '已是最新数据'
+      }
+      // 加载完成,停止下拉刷新的loading状态
+      this.currentChannels.pullLoading = false
     },
     // 初始化频道数据
     async firstChannel () {
@@ -133,6 +153,7 @@ export default {
           item.pullLoading = false // 控制每个频道内的下拉刷新状态
           item.upLoading = false // 控制每个频道内的上拉刷新状态
           item.upFinished = false // 控制每个频道内列表加载是否结束
+          item.pullRefresh = '' // 下拉刷新成功的提示文本
         })
         this.channels = channels
         // console.log(channels)
