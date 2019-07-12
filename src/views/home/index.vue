@@ -46,7 +46,7 @@ export default {
       active: 0, // 频道的索引
       footerTabs: 0,
       loading: false, // 列表上拉加载更多
-      finished: false, // 控制列表加载是否结束
+      // finished: false, // 控制列表加载是否结束
       isLoading: false // 下拉刷新加载完成
     }
   },
@@ -64,12 +64,24 @@ export default {
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
       // 调用定时器,让上拉加载更多有一个缓冲
-      await this.$sleep(800)
+      await this.$sleep(600)
       // console.log(111)
       let data = []
       // 初始化请求频道内文章列表,获取数据
       data = await this.channelArticles()
       // console.log(data)
+      
+      // 先判断时间戳和数据列表时否为空
+      // 如果为空的话,说明没有数据了,此时需要结束列表加载状态
+      if (!data.pre_timestamp && !data.results.length) {
+        // 结束上拉时loading一直转圈加载中的状态
+        this.currentChannels.upLoading = false
+        // 结束列表加载状态,显示出加载更多
+        this.currentChannels.upFinished = true
+        // 停止往后继续执行
+        return
+      }
+
       // 初次得到数据中文章列表是空,并返回了一个时间戳
       // 我们可以根据这个时间戳去获取上次的数据
       if (data.pre_timestamp && !data.results.length) {
@@ -78,7 +90,6 @@ export default {
         data = await this.channelArticles()
       }
       // console.log(data)
-      // console.log(data.pre_timestamp)
       // 加载完成之后,更新时间戳
       this.currentChannels.timestamp = data.pre_timestamp
       // console.log(this.currentChannels.timestamp)
