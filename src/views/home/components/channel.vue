@@ -48,11 +48,11 @@
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
                 <van-grid-item
-                v-for="value in 8"
-                :key="value"
-                text="文字">
+                v-for="item in filterChannel"
+                :key="item.id"
+                >
                 <div class="info">
-                    <span class="text">文字</span>
+                    <span class="text">{{ item.name }}</span>
                 </div>
                 </van-grid-item>
             </van-grid>
@@ -82,26 +82,30 @@ export default {
   },
   data () {
     return {
+      allchannels: []
     }
-  },
-  created () {
-    // 初始化请求所有频道数据
-    this.allchannels()
   },
   computed: {
     // 过滤掉重复的频道
     filterChannel () {
-    // 拿到重复的id
-    
-    //   const data = this.allchannels().includes()
+    // 拿到重复的id  返回一个数组
+    const repeatID = this.userChannels.map(item => item.id)
+    // console.log(repeatID)
+    // 根据重复的id在所有频道数据中过滤掉
+    // repeatID.includes(item.id) 检测重复的id数组中是否含有所有频道数据中相同的id
+    return this.allchannels.filter(item => !repeatID.includes(item.id))
     }
+  },
+  created () {
+    // 初始化请求所有频道数据
+    this.loadAllchannels()
   },
   methods: {
     // 请求所有频道数据
-    async allchannels () {
+    async loadAllchannels () {
       const data = await getAllChannel()
-    //   console.log(data)
-    return data
+      //   console.log(data)
+      this.allchannels = data.channels
     }
   }
 }
