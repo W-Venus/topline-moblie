@@ -47,7 +47,10 @@
     <!-- 弹出层
     v-model 就等于 :value="" 和 @input="" 的简写
      -->
-    <home-channel v-model="isChannelShow"/>
+    <home-channel
+      v-model="isChannelShow"
+      :user-channels="channels"
+    />
   </div>
 </template>
 
@@ -89,10 +92,6 @@ export default {
     this.firstChannel()
   },
   methods: {
-    // 点击标签页面包屑按钮,显示弹出层
-    handleShow () {
-
-    },
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
       // 调用定时器,让上拉加载更多有一个缓冲

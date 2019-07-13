@@ -24,10 +24,10 @@
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
                 <van-grid-item
-                v-for="value in 8"
-                :key="value"
-                text="文字">
-                <span class="text">文字</span>
+                v-for="(value,index) in userChannels"
+                :key="index"
+                >
+                <span class="text">{{ value.name }}</span>
                 <van-icon class="close-icon" name="close" />
                 </van-grid-item>
             </van-grid>
@@ -55,20 +55,44 @@
 </template>
 
 <script>
+import { getAllChannel } from '@/api/channel'
 export default {
   name: 'HomeChannel',
   props: {
     value: {
       type: Boolean,
       default: false
+    },
+    // 接收父组件传来的用户频道数据
+    userChannels: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
     }
   },
-
-  methods: {}
+  created () {
+    // 初始化请求所有频道数据
+    this.allchannels()
+  },
+  computed: {
+    // 过滤掉重复的频道
+    filterChannel () {
+    // 拿到重复的id
+    
+    //   const data = this.allchannels().includes()
+    }
+  },
+  methods: {
+    // 请求所有频道数据
+    async allchannels () {
+      const data = await getAllChannel()
+    //   console.log(data)
+    return data
+    }
+  }
 }
 </script>
 
