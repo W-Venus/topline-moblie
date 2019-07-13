@@ -24,10 +24,16 @@
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
                 <van-grid-item
-                v-for="(value,index) in userChannels"
+                v-for="(item,index) in userChannels"
                 :key="index"
                 >
-                <span class="text">{{ value.name }}</span>
+                <!-- 让当前激活频道索引等于当前遍历项索引 
+                  成立则类名就能用,字体就可以显示为红色
+                -->
+                <span
+                  class="text"
+                  :class="{ active: index === nowChannelActive }"
+                >{{ item.name }}</span>
                 <van-icon class="close-icon" name="close" />
                 </van-grid-item>
             </van-grid>
@@ -67,6 +73,11 @@ export default {
     userChannels: {
       type: Array,
       default: () => []
+    },
+    // 获取当前激活频道索引
+    nowChannelActive: {
+      type: Number,
+      default: 0
     }
   },
   data () {
