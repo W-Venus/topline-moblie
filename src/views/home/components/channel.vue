@@ -141,7 +141,20 @@ export default {
       // 判断是否是编辑状态
       if (this.isEdit) {
         // 如果是,点击频道数据进行删除
-        
+        // 截取新数组
+        const delChannels = this.userChannels.slice(0)
+        // 删除一个
+        delChannels.splice(index, 1)
+        // 传给父组件,父组件进行删除
+        this.$emit('update:user-channels', delChannels)
+        // 判断用户是否登录
+        const { user } = this.$store.state
+        if (user) {
+          // 如果登录,则发送请求删除
+        } else {
+          // 如果没有登录,则将删除之后的数据直接保存到本地存储中
+          window.localStorage.setItem('channels', JSON.stringify(delChannels))
+        }
       } else {
         // 如果不是,点击频道数据进入相应页面,同时隐藏弹出层
         // 传给父组件一个事件,父组件自己去修改
