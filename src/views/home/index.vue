@@ -5,7 +5,7 @@
     <!-- /头部 -->
     <van-tabs class="channel-tabs" v-model="active">
       <!-- 使用组件标签页的插槽来设置图标 -->
-      <div slot="nav-right" class="edit-icon">
+      <div slot="nav-right" class="edit-icon" @click="isChannelShow = true">
         <van-icon name="wap-nav"/>
       </div>
       <van-tab
@@ -44,20 +44,30 @@
       <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
     </van-tabbar>
     <!-- /底部 -->
+    <!-- 弹出层
+    v-model 就等于 :value="" 和 @input="" 的简写
+     -->
+    <home-channel v-model="isChannelShow"/>
   </div>
 </template>
 
 <script>
 import { getUserChannel } from '@/api/channel'
 import { getChannelArticles } from '@/api/articles'
+// 加载组件
+import HomeChannel from './components/channel'
 export default {
   name: 'homeIndex',
-
+  // 注册子组件
+  components: {
+    HomeChannel
+  },
   data () {
     return {
       channels: [], // 频道数据
       active: 0, // 频道的索引
-      footerTabs: 0
+      footerTabs: 0,
+      isChannelShow: false // 控制弹出层的显示与隐藏
     }
   },
   computed: {
@@ -79,6 +89,10 @@ export default {
     this.firstChannel()
   },
   methods: {
+    // 点击标签页面包屑按钮,显示弹出层
+    handleShow () {
+
+    },
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
       // 调用定时器,让上拉加载更多有一个缓冲
@@ -199,7 +213,6 @@ export default {
 .channel-tabs /deep/ .van-tabs__wrap {
   position: fixed;
   top: 92px;
-  
 }
 .channel-tabs .edit-icon {
     position: sticky;

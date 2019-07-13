@@ -1,6 +1,9 @@
 <template>
+  <!-- v-model 就等于 :value="" 和 @input="" 的简写
+   -->
   <van-popup
-    v-model="show"
+    :value="value"
+    @input="$emit('input', $event)"
     position="bottom"
     :style="{ height: '90%' }"
   />
@@ -8,13 +11,15 @@
 
 <script>
 export default {
-  name: 'Channel',
+  name: 'HomeChannel',
   props: {
-      
+    value: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
-      show: false
     }
   },
 
