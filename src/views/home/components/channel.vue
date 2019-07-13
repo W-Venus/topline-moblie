@@ -19,6 +19,7 @@
                     type="danger"
                     plain
                     size="mini"
+                    @click="handleEdit"
                 >编辑</van-button>
                 </div>
             </div>
@@ -27,8 +28,7 @@
                 v-for="(item,index) in userChannels"
                 :key="index"
                 >
-                <!-- 让当前激活频道索引等于当前遍历项索引 
-                  成立则类名就能用,字体就可以显示为红色
+                <!-- 让当前激活频道索引等于当前遍历项索引,成立则类名就能用,字体就可以显示为红色
                 -->
                 <span
                   class="text"
@@ -48,6 +48,7 @@
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
                 <van-grid-item
+                @click="handleAdd(item)"
                 v-for="item in filterChannel"
                 :key="item.id"
                 >
@@ -88,12 +89,12 @@ export default {
   computed: {
     // 过滤掉重复的频道
     filterChannel () {
-    // 拿到重复的id  返回一个数组
-    const repeatID = this.userChannels.map(item => item.id)
-    // console.log(repeatID)
-    // 根据重复的id在所有频道数据中过滤掉
-    // repeatID.includes(item.id) 检测重复的id数组中是否含有所有频道数据中相同的id
-    return this.allchannels.filter(item => !repeatID.includes(item.id))
+      // 拿到用户频道的id  返回一个数组
+      const repeatID = this.userChannels.map(item => item.id)
+      // console.log(repeatID)
+      // 根据得到的id数组在所有频道数据中将其过滤掉
+      // repeatID.includes(item.id) 检测重复的id数组中是否含有所有频道数据中相同的id
+      return this.allchannels.filter(item => !repeatID.includes(item.id))
     }
   },
   created () {
@@ -101,6 +102,18 @@ export default {
     this.loadAllchannels()
   },
   methods: {
+    // 点击频道,将当前点击项传给父组件,由父组件自己进行添加
+    handleAdd (item) {
+      // 将用户频道数组从第0个索引开始,把后面的全部截取下来,返回一个新数组
+      const newChannels = this.userChannels.slice(0)
+      // 再把当前点击项push进去
+      newChannels.push(item)
+      this.$emit('update:user-channels', newChannels)
+    },
+    // 点击编辑按钮,显示频道右上角的关闭图标
+    handleEdit () {
+
+    },
     // 请求所有频道数据
     async loadAllchannels () {
       const data = await getAllChannel()

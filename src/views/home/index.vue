@@ -46,10 +46,13 @@
     <!-- /底部 -->
     <!-- 弹出层
     v-model 就等于 :value="" 和 @input="" 的简写
+    .sync 修饰符,自动监听一个事件
+    :user-channels.sync="channels" 相当于 监听了下面这个事件
+    @update:user-channels="channels = $event"
      -->
     <home-channel
       v-model="isChannelShow"
-      :user-channels="channels"
+      :user-channels.sync="channels"
       :nowChannelActive="active"
     />
   </div>
