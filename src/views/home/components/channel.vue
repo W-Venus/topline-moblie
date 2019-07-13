@@ -19,8 +19,9 @@
                     type="danger"
                     plain
                     size="mini"
-                    @click="handleEdit"
-                >编辑</van-button>
+                    @click="isEdit = !isEdit"
+                >{{ isEdit ? '完成': '编辑'}}</van-button>
+                <!-- 编辑绑定数据默认是false, 点击之后,变为true,如果是true,就显示为完成两字,如果是false,就显示编辑两字 -->
                 </div>
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
@@ -34,7 +35,7 @@
                   class="text"
                   :class="{ active: index === nowChannelActive }"
                 >{{ item.name }}</span>
-                <van-icon class="close-icon" name="close" />
+                <van-icon class="close-icon" v-show="isEdit" name="close" />
                 </van-grid-item>
             </van-grid>
             </div>
@@ -83,7 +84,8 @@ export default {
   },
   data () {
     return {
-      allchannels: []
+      allchannels: [],
+      isEdit: false
     }
   },
   computed: {
@@ -109,6 +111,14 @@ export default {
       // 再把当前点击项push进去
       newChannels.push(item)
       this.$emit('update:user-channels', newChannels)
+      // 判断用户是否登录
+      const { user } = this.$store.state
+      // 如果登录了,则发请求添加数据
+      if (user) {
+      } else {
+        // 如果没有登录,则直接将之前添加后更新的频道数据添加到本地存储中
+        window.localStorage.setItem('channels', JSON.stringify(newChannels))
+      }
     },
     // 点击编辑按钮,显示频道右上角的关闭图标
     handleEdit () {
@@ -118,6 +128,15 @@ export default {
     async loadAllchannels () {
       const data = await getAllChannel()
       //   console.log(data)
+      // 循环每个频道,对每个频道内的文章数据进行统一处理,处理成我们想要的格式
+      data.channels.forEach(item => {
+        item.articles = [] // 每个频道内文章列表数据
+        item.timestamp = Date.now() // 每个频道内数据时间戳
+        item.pullLoading = false // 控制每个频道内的下拉刷新状态
+        item.upLoading = false // 控制每个频道内的上拉刷新状态
+        item.upFinished = false // 控制每个频道内列表加载是否结束
+        item.pullRefresh = '' // 下拉刷新成功的提示文本
+      })
       this.allchannels = data.channels
     }
   }
