@@ -26,6 +26,7 @@
             </div>
             <van-grid class="channel-content" :gutter="10" clickable>
                 <van-grid-item
+                @click="handleMyChannels(item,index)"
                 v-for="(item,index) in userChannels"
                 :key="index"
                 >
@@ -120,10 +121,6 @@ export default {
         window.localStorage.setItem('channels', JSON.stringify(newChannels))
       }
     },
-    // 点击编辑按钮,显示频道右上角的关闭图标
-    handleEdit () {
-
-    },
     // 请求所有频道数据
     async loadAllchannels () {
       const data = await getAllChannel()
@@ -138,6 +135,19 @@ export default {
         item.pullRefresh = '' // 下拉刷新成功的提示文本
       })
       this.allchannels = data.channels
+    },
+    // 对我的频道列表的处理
+    handleMyChannels (item,index) {
+      // 判断是否是编辑状态
+      if (this.isEdit) {
+        // 如果是,点击频道数据进行删除
+        
+      } else {
+        // 如果不是,点击频道数据进入相应页面,同时隐藏弹出层
+        // 传给父组件一个事件,父组件自己去修改
+        this.$emit('update:nowChannelActive', index)
+        this.$emit('input', false)
+      }
     }
   }
 }

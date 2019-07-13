@@ -53,7 +53,7 @@
     <home-channel
       v-model="isChannelShow"
       :user-channels.sync="channels"
-      :nowChannelActive="active"
+      :nowChannelActive.sync="active"
     />
   </div>
 </template>
