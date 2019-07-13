@@ -4,7 +4,15 @@
     <van-nav-bar class="home-nav" title="首页" fixed/>
     <!-- /头部 -->
     <van-tabs class="channel-tabs" v-model="active">
-      <van-tab :title="item.name" v-for="item in channels" :key="item.id">
+      <!-- 使用组件标签页的插槽来设置图标 -->
+      <div slot="nav-right" class="edit-icon">
+        <van-icon name="wap-nav"/>
+      </div>
+      <van-tab
+        :title="item.name"
+        v-for="item in channels"
+        :key="item.id"
+      >
         <van-pull-refresh
           :success-text="item.pullRefresh"
           :success-duration="600"
@@ -49,10 +57,7 @@ export default {
     return {
       channels: [], // 频道数据
       active: 0, // 频道的索引
-      footerTabs: 0,
-      loading: false, // 列表上拉加载更多
-      // finished: false, // 控制列表加载是否结束
-      isLoading: false // 下拉刷新加载完成
+      footerTabs: 0
     }
   },
   computed: {
@@ -61,6 +66,14 @@ export default {
       return this.channels[this.active]
     }
   },
+  // watch: { // 监视用户的登录状态
+  //   async '$store.state.user' () {
+  //     // 登录了,就重新加载频道数据,调用一下onload加载数据
+  //     // 因为缓存之后页面不会再重新使用生命周期获取数据了
+  //     await this.firstChannel()
+  //     this.onLoad()
+  //   }
+  // },
   created () {
     // 初始化频道数据
     this.firstChannel()
@@ -69,7 +82,7 @@ export default {
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
       // 调用定时器,让上拉加载更多有一个缓冲
-      await this.$sleep(600)
+      await this.$sleep(500)
       // console.log(111)
       let data = []
       // 初始化请求频道内文章列表,获取数据
@@ -117,6 +130,8 @@ export default {
         // 如果有最新数据,则重置文章列表
         this.currentChannels.articles = data.results
         this.$toast('刷新成功')
+        // 当下拉刷新有最新数据且数据不满一屏时,使用onload再次加载数据
+        this.onLoad()
       } else {
         // 如果没有最新数据,则添加一个提示消息
         this.currentChannels.pullRefresh = '已是最新数据'
@@ -184,6 +199,14 @@ export default {
 .channel-tabs /deep/ .van-tabs__wrap {
   position: fixed;
   top: 92px;
+  
+}
+.channel-tabs .edit-icon {
+    position: sticky;
+    right: 0;
+    align-items: center;
+    display: flex;
+    background-color: #fff;
 }
 .channel-tabs /deep/ .van-tabs__content {
   margin-top: 92px;
