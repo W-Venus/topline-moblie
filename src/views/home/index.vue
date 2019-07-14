@@ -35,10 +35,9 @@
                 <!-- 判断是否有图片 -->
                 <template v-if="articlesItem.cover.type">
                   <van-grid :border="false" :column-num="3">
+                    <!-- 遍历图片数据进行展示 -->
                     <van-grid-item v-for="(item,index) in articlesItem.cover.images" :key="index">
-                      <van-image :src="item">
-                        <template v-slot:error>加载失败</template>
-                      </van-image>
+                      <van-image :src="item"/>
                     </van-grid-item>
                   </van-grid>
                 </template>
@@ -47,9 +46,15 @@
                   &nbsp;
                   <span>评论: {{ articlesItem.comm_count }}</span>
                   &nbsp;
-                  <span>{{ articlesItem.pubdate }}</span>
+                  <!-- 使用管道符调用过滤器 -->
+                  <span>{{ articlesItem.pubdate | relativeTime }}</span>
                 </p>
               </div>
+               <van-icon
+                slot="right-icon"
+                name="close"
+                style="line-height: inherit;"
+              />
             </van-cell>
           </van-list>
         <!-- /列表 -->

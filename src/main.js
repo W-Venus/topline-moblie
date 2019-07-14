@@ -7,6 +7,8 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 // 引入amfe-flexible
 import 'amfe-flexible'
+// 加载过滤器文件
+import relativetime from './filters/relative-time'
 
 Vue.use(Vant)
 // 封装一个定时器
@@ -18,6 +20,8 @@ Vue.prototype.$sleep = time => {
   })
 }
 
+// 注册过滤器
+Vue.filter('relativeTime', relativetime)
 // 按需导入组件
 // import { Button } from 'vant'
 
