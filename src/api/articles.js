@@ -2,7 +2,7 @@
 
 // 加载axios请求模块
 import request from '@/utils/request'
-
+// 获取频道内文章列表
 export const getChannelArticles = ({ channelId, timestamp, withTop }) => {
   return request({
     method: 'GET',
@@ -11,6 +11,19 @@ export const getChannelArticles = ({ channelId, timestamp, withTop }) => {
       channel_id: channelId,
       timestamp,
       with_top: withTop
+    }
+  })
+}
+
+// 举报垃圾信息
+export const reportInformation = ({ channelId, type, remark }) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/reports',
+    data: {
+      channel_id: channelId,
+      type,
+      remark
     }
   })
 }

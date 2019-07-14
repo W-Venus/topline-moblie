@@ -18,8 +18,11 @@
 </template>
 
 <script>
+// 加载接口
+import { reportInformation } from '@/api/articles'
 export default {
   name: 'Dialog',
+  // 父子通信
   props: {
     value: {
       type: Boolean,
@@ -32,12 +35,7 @@ export default {
     }
   },
 
-  methods: {
-    // // 点击返回箭头,返回上一个弹框
-    // handleBackDialog () {
-      
-    // }
-  }
+  methods: {}
 }
 </script>
 
