@@ -116,7 +116,13 @@ export default {
       // 判断用户是否登录
       const { user } = this.$store.state
       // 如果登录了,则发请求添加数据
+      // 后端要求传一个数组 [id: 频道id, seq: 频道的索引]
+      // 我们要添加的那个频道的索引就是添加完成后数组长度-1
       if (user) {
+        addUserChannel([{
+          id: item.id,
+          seq: newChannels.length - 1
+        }])
       } else {
         // 如果没有登录,则直接将之前添加后更新的频道数据添加到本地存储中
         window.localStorage.setItem('channels', JSON.stringify(newChannels))
