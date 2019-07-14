@@ -30,7 +30,27 @@
               v-for="articlesItem in item.articles"
               :key="articlesItem.art_id"
               :title="articlesItem.title"
-            />
+            >
+              <div slot="label">
+                <!-- 判断是否有图片 -->
+                <template v-if="articlesItem.cover.type">
+                  <van-grid :border="false" :column-num="3">
+                    <van-grid-item v-for="(item,index) in articlesItem.cover.images" :key="index">
+                      <van-image :src="item">
+                        <template v-slot:error>加载失败</template>
+                      </van-image>
+                    </van-grid-item>
+                  </van-grid>
+                </template>
+                <p>
+                  <span>{{ articlesItem.aut_name }}</span>
+                  &nbsp;
+                  <span>评论: {{ articlesItem.comm_count }}</span>
+                  &nbsp;
+                  <span>{{ articlesItem.pubdate }}</span>
+                </p>
+              </div>
+            </van-cell>
           </van-list>
         <!-- /列表 -->
         </van-pull-refresh>
@@ -83,14 +103,15 @@ export default {
       return this.channels[this.active]
     }
   },
-  // watch: { // 监视用户的登录状态
-  //   async '$store.state.user' () {
-  //     // 登录了,就重新加载频道数据,调用一下onload加载数据
-  //     // 因为缓存之后页面不会再重新使用生命周期获取数据了
-  //     await this.firstChannel()
-  //     this.onLoad()
-  //   }
-  // },
+  watch: { // 监视用户的登录状态
+    async '$store.state.user' () {
+      // 登录了,就重新加载频道数据,调用一下onload加载数据
+      // 因为缓存之后页面不会再重新使用生命周期获取数据了
+      await this.firstChannel()
+      this.onLoad()
+      this.currentChannels.upLoading = true
+    }
+  },
   created () {
     // 初始化频道数据
     this.firstChannel()
