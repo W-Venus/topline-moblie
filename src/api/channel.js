@@ -16,3 +16,22 @@ export const getAllChannel = () => {
     url: '/app/v1_0/channels'
   })
 }
+
+// 添加用户频道数据 channels需要传一个数组
+export const addUserChannel = channels => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/channels',
+    data: {
+      channels
+    }
+  })
+}
+
+// 删除用户指定频道
+export const delUserChannel = channelID => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/user/channels/${channelID}`
+  })
+}

@@ -37,6 +37,7 @@
                   :class="{ active: index === nowChannelActive }"
                 >{{ item.name }}</span>
                 <van-icon class="close-icon" v-show="isEdit" name="close" />
+                <!-- 用v-show来绑定isEdit, 从而达到联动效果,控制显示与隐藏-->
                 </van-grid-item>
             </van-grid>
             </div>
@@ -86,7 +87,7 @@ export default {
   data () {
     return {
       allchannels: [],
-      isEdit: false
+      isEdit: false // 定义编辑状态,默认为false
     }
   },
   computed: {
@@ -137,7 +138,7 @@ export default {
       this.allchannels = data.channels
     },
     // 对我的频道列表的处理
-    handleMyChannels (item,index) {
+    handleMyChannels (item, index) {
       // 判断是否是编辑状态
       if (this.isEdit) {
         // 如果是,点击频道数据进行删除

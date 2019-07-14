@@ -158,40 +158,35 @@ export default {
     },
     // 初始化频道数据
     async firstChannel () {
-      try {
-        let channels = []
-        const { user } = this.$store.state
-        // 判断是否登录
-        if (user) {
-          channels = (await getUserChannel().channels)
+      let channels = []
+      const { user } = this.$store.state
+      // 判断是否登录
+      if (user) {
+        channels = (await getUserChannel().channels)
+      } else {
+        // 从本地获取频道数据
+        const localChannels = window.localStorage.getItem('channels')
+        // 判断是否有本地存储的频道列表
+        if (localChannels) {
+          // 有本地数据,就使用本地数据
+          channels = localChannels
         } else {
-          // 从本地获取频道数据
-          const localChannels = window.localStorage.getItem('channels')
-          // 判断是否有本地数据
-          if (localChannels) {
-            // 有本地数据,就使用本地数据
-            channels = localChannels
-          } else {
-            // 没有本地数据,使用默认的
-            const data = await getUserChannel()
-            // console.log(data)
-            channels = data.channels
-          }
+          // 没有本地数据,使用默认的
+          channels = (await getUserChannel()).channels
+          // console.log(data)
         }
-        // 循环每个频道,对每个频道内的文章数据进行统一处理,处理成我们想要的格式
-        channels.forEach(item => {
-          item.articles = [] // 每个频道内文章列表数据
-          item.timestamp = Date.now() // 每个频道内数据时间戳
-          item.pullLoading = false // 控制每个频道内的下拉刷新状态
-          item.upLoading = false // 控制每个频道内的上拉刷新状态
-          item.upFinished = false // 控制每个频道内列表加载是否结束
-          item.pullRefresh = '' // 下拉刷新成功的提示文本
-        })
-        this.channels = channels
-        // console.log(channels)
-      } catch (err) {
-        console.log(err)
       }
+      // 循环每个频道,对每个频道内的文章数据进行统一处理,处理成我们想要的格式
+      channels.forEach(item => {
+        item.articles = [] // 每个频道内文章列表数据
+        item.timestamp = Date.now() // 每个频道内数据时间戳
+        item.pullLoading = false // 控制每个频道内的下拉刷新状态
+        item.upLoading = false // 控制每个频道内的上拉刷新状态
+        item.upFinished = false // 控制每个频道内列表加载是否结束
+        item.pullRefresh = '' // 下拉刷新成功的提示文本
+      })
+      this.channels = channels
+      // console.log(channels)
     },
     // 请求当前频道内文章列表,只是用来请求数据的
     async channelArticles () {
