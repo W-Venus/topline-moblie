@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { getAllChannel } from '@/api/channel'
+import { getAllChannel, addUserChannel, delUserChannel } from '@/api/channel'
 export default {
   name: 'HomeChannel',
   props: {
@@ -138,7 +138,7 @@ export default {
       this.allchannels = data.channels
     },
     // 对我的频道列表的处理
-    handleMyChannels (item, index) {
+    async handleMyChannels (item, index) {
       // 判断是否是编辑状态
       if (this.isEdit) {
         // 如果是,点击频道数据进行删除
@@ -152,6 +152,7 @@ export default {
         const { user } = this.$store.state
         if (user) {
           // 如果登录,则发送请求删除
+          await delUserChannel(item.id)
         } else {
           // 如果没有登录,则将删除之后的数据直接保存到本地存储中
           window.localStorage.setItem('channels', JSON.stringify(delChannels))

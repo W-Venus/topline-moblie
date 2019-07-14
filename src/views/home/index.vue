@@ -162,7 +162,7 @@ export default {
       const { user } = this.$store.state
       // 判断是否登录
       if (user) {
-        channels = (await getUserChannel().channels)
+        channels = (await getUserChannel()).channels
       } else {
         // 从本地获取频道数据
         const localChannels = window.localStorage.getItem('channels')
