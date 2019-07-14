@@ -51,6 +51,7 @@
                 </p>
               </div>
                <van-icon
+                @click="isDialogShow = true"
                 slot="right-icon"
                 name="close"
                 style="line-height: inherit;"
@@ -80,6 +81,12 @@
       :user-channels.sync="channels"
       :nowChannelActive.sync="active"
     />
+    <!-- /弹出层 -->
+    <!-- 弹出框 -->
+    <dia-log
+      v-model="isDialogShow"
+    />
+    <!-- /弹出框 -->
   </div>
 </template>
 
@@ -88,18 +95,21 @@ import { getUserChannel } from '@/api/channel'
 import { getChannelArticles } from '@/api/articles'
 // 加载组件
 import HomeChannel from './components/channel'
+import DiaLog from './components/dialog'
 export default {
   name: 'homeIndex',
   // 注册子组件
   components: {
-    HomeChannel
+    HomeChannel,
+    DiaLog
   },
   data () {
     return {
       channels: [], // 频道数据
       active: 0, // 频道的索引
       footerTabs: 0,
-      isChannelShow: false // 控制弹出层的显示与隐藏
+      isChannelShow: false, // 控制弹出层的显示与隐藏
+      isDialogShow: false // 控制弹出框的显示与隐藏
     }
   },
   computed: {
