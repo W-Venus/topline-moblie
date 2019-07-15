@@ -4,7 +4,7 @@
 import request from '@/utils/request'
 
 // 获取联想建议
-export const search = q => {
+export const getSuggestions = q => {
   return request({
     method: 'GET',
     url: '/app/v1_0/suggestion',

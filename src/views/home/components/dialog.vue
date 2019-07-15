@@ -74,9 +74,9 @@ export default {
       try {
         const id = this.clickArticle.art_id.toString()
         // 发送请求举报
-        const data = await reportInformation({
+        await reportInformation({
           articleId: id,
-          type,
+          type
         })
         // 提示反馈成功
         this.$toast('举报成功')
