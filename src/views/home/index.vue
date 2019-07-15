@@ -27,8 +27,8 @@
             @load="onLoad"
           >
             <van-cell
-              v-for="articlesItem in item.articles"
-              :key="articlesItem.art_id"
+              v-for="(articlesItem, index) in item.articles"
+              :key="index"
               :title="articlesItem.title"
             >
               <div slot="label">
@@ -51,7 +51,7 @@
                 </p>
               </div>
                <van-icon
-                @click="isDialogShow = true"
+                @click="handleArticleID(articlesItem)"
                 slot="right-icon"
                 name="close"
                 style="line-height: inherit;"
@@ -82,8 +82,12 @@
       :nowChannelActive.sync="active"
     />
     <!-- /弹出层 -->
-    <!-- 弹出框 -->
+    <!-- 弹出框  clickArticle 把当前点击的文章传给子组件
+    dislike 子组件发布的事件
+     -->
     <dia-log
+      @dislike="handleDislike"
+      :clickArticle="currentArticle"
       v-model="isDialogShow"
     />
     <!-- /弹出框 -->
@@ -109,7 +113,8 @@ export default {
       active: 0, // 频道的索引
       footerTabs: 0,
       isChannelShow: false, // 控制弹出层的显示与隐藏
-      isDialogShow: false // 控制弹出框的显示与隐藏
+      isDialogShow: false, // 控制弹出框的显示与隐藏
+      currentArticle: null // 存储当前点击文章
     }
   },
   computed: {
@@ -132,6 +137,15 @@ export default {
     this.firstChannel()
   },
   methods: {
+    // 因为文章id大于安全整数范围,所以在request.js中统一进行处理
+    // 存储当前点击的不喜欢的文章,并显示弹框
+    handleArticleID (articlesItem) {
+      // 显示弹框
+      this.isDialogShow = true
+      // console.log(articlesItem)
+      // 将点击的不喜欢的文章存储起来
+      this.currentArticle = articlesItem
+    },
     // 上拉刷新 (每次点进去,都会刷新)
     async onLoad () {
       // 调用定时器,让上拉加载更多有一个缓冲
@@ -141,7 +155,7 @@ export default {
       // 初始化请求频道内文章列表,获取数据
       data = await this.channelArticles()
       // console.log(data)
-
+      this.article = this.currentChannels.articles
       // 先判断时间戳和数据列表时否为空
       // 如果为空的话,说明没有数据了,此时需要结束列表加载状态
       if (!data.pre_timestamp && !data.results.length) {
@@ -152,7 +166,6 @@ export default {
         // 停止往后继续执行
         return
       }
-
       // 初次得到数据中文章列表是空,并返回了一个时间戳
       // 我们可以根据这个时间戳去获取上次的数据
       if (data.pre_timestamp && !data.results.length) {
@@ -237,6 +250,15 @@ export default {
       // console.log(data)
       // 把数据返回
       return data
+    },
+    // 对文章不喜欢 和 拉黑作者的操作
+    handleDislike () {
+      // 获取当前频道内文章列表
+      const articles = this.currentChannels.articles
+      // 根据点击的id,找到不喜欢的文章位于文章中的索引
+      const delIndex = articles.findIndex(item => item === this.currentArticle)
+      // 再把当前点击的文章移除
+      articles.splice(delIndex, 1)
     }
   }
 }

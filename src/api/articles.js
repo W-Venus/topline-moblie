@@ -16,14 +16,25 @@ export const getChannelArticles = ({ channelId, timestamp, withTop }) => {
 }
 
 // 举报垃圾信息
-export const reportInformation = ({ channelId, type, remark }) => {
+export const reportInformation = ({ articleId, type, remark = '' }) => {
   return request({
     method: 'POST',
     url: '/app/v1_0/article/reports',
     data: {
-      channel_id: channelId,
+      target: articleId,
       type,
       remark
+    }
+  })
+}
+
+// 对文章不感兴趣
+export const dislikeArticles = articlesID => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/dislikes',
+    data: {
+      target: articlesID
     }
   })
 }
