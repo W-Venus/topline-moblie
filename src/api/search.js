@@ -13,3 +13,20 @@ export const getSuggestions = q => {
     }
   })
 }
+
+// 获取搜索结果
+export const getSearchResult = ({
+  page,
+  perPage,
+  q
+}) => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/suggestion',
+    params: {
+      page,
+      per_page: perPage,
+      q
+    }
+  })
+}
