@@ -30,3 +30,11 @@ export const getSearchResult = ({
     }
   })
 }
+
+// 获取历史记录
+export const getHistory = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/search/histories'
+  })
+}
