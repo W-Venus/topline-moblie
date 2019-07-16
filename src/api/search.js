@@ -16,13 +16,13 @@ export const getSuggestions = q => {
 
 // 获取搜索结果
 export const getSearchResult = ({
-  page,
-  perPage,
+  page = 1,
+  perPage = 10,
   q
 }) => {
   return request({
     method: 'GET',
-    url: '/app/v1_0/suggestion',
+    url: '/app/v1_0/search',
     params: {
       page,
       per_page: perPage,

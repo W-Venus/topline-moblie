@@ -59,6 +59,7 @@ export default {
     },
     // 点击键盘或回车按钮触发
     handleSearch (q) {
+      // console.log(q)
       // 跳转到搜索页面
       this.$router.push({
         name: 'search-result',

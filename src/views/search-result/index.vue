@@ -1,7 +1,12 @@
 <template>
   <div>
     <!-- 头部 -->
-    <van-nav-bar class="result-nav" title="搜索结果" fixed/>
+    <van-nav-bar
+    class="result-nav"
+    title="搜索结果"
+    fixed
+    left-arrow
+    @click-left="$router.back()"/>
     <van-list
         v-model="loading"
         :finished="finished"
@@ -9,41 +14,60 @@
         @load="onLoad"
         >
     <van-cell
-        v-for="item in list"
-        :key="item"
-        :title="item"
+        v-for="item in articles"
+        :key="item.art_id"
+        :title="item.title"
     />
 </van-list>
   </div>
 </template>
 
 <script>
+import { getSearchResult } from '@/api/search'
 export default {
   name: 'search-result',
 
   data () {
     return {
-      list: [],
+      articles: [],
       loading: false,
-      finished: false
+      finished: false,
+      page: 1,
+      perpage: 10
     }
   },
-
+  computed: {
+    q () {
+      return this.$route.params.q
+    }
+  },
   methods: {
-    onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
+    async onLoad () {
+      // 添加一个延时时间,让数据加载慢点
+      await this.$sleep(800)
+      const data = await this.getResults()
+    //   console.log(data)
+      // 判断返回结果是否为空
+      if (!data.results.length) {
+        // 停止页面的加载状态
         this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+        this.finished = true
+        return
+      }
+      // 不为空 把数据push进去
+      this.articles.push(...data.results)
+      // 更新页码
+      this.page++
+      // 结束loading
+      this.loading = false
+    },
+    // 封装请求搜索结果的函数
+    getResults () {
+      return getSearchResult({
+        page: this.page,
+        perPage: this.perpage,
+        q: this.q
+      })
     }
   }
 }
@@ -60,7 +84,7 @@ export default {
 .channel-tabs /deep/ .van-tabs__content {
   margin-top: 92px;
 }
-.van-nav-bar__title {
+.van-nav-bar__title, .van-nav-bar .van-icon {
   color: #fff;
 }
 .result-nav {
