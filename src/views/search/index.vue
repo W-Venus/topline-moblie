@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { getSuggestions, getSearchResult } from '@/api/search'
+import { getSuggestions } from '@/api/search'
 // 加载lodash的debounce
 import { debounce } from 'lodash'
 export default {

@@ -41,12 +41,26 @@ export default {
       return this.$route.params.q
     }
   },
+  // 当组件使用了keep-alive 进行缓存时,会出现切换相同路由页面数据不重新加载的问题,此时,我们可以使用actived 和deactived 两个钩子函数,actived 可以监视到页面激活,deactived 可以监视到页面失活, 此时我们可以分别进行不同操作
+  // 页面激活时,重新加载数据
+  activated () {
+    this.loading = true
+    this.onLoad()
+  },
+  // 页面失活时,手动销毁页面
+  deactivated () {
+    this.articles = []
+    this.page = 1
+
+    // 当逻辑比较繁琐时,可以简单粗暴的,手动销毁当前实例，禁用缓存！！！
+    // this.$destroy()
+  },
   methods: {
     async onLoad () {
       // 添加一个延时时间,让数据加载慢点
       await this.$sleep(800)
       const data = await this.getResults()
-    //   console.log(data)
+      //   console.log(data)
       // 判断返回结果是否为空
       if (!data.results.length) {
         // 停止页面的加载状态
