@@ -1,12 +1,15 @@
 <template>
   <div>
-    <van-search
-      v-model="searcheText"
-      placeholder="请输入搜索关键词"
-      show-action
-    />
+    <form action="/">
+      <van-search
+        v-model="searcheText"
+        placeholder="请输入搜索关键词"
+        show-action
+        @search="handleSearch(searcheText)"
+      />
+    </form>
     <van-cell-group>
-      <van-cell v-for="item in searchList" :key="item" :title="item">
+      <van-cell v-for="item in searchList" :key="item" :title="item" @click="handleSearch(item)">
         <!-- 使用插槽,定制内容 -->
         <div slot="title" v-html="highLight(item, searcheText)"></div>
       </van-cell>
@@ -21,7 +24,7 @@
 </template>
 
 <script>
-import { getSuggestions } from '@/api/search'
+import { getSuggestions, getSearchResult } from '@/api/search'
 // 加载lodash的debounce
 import { debounce } from 'lodash'
 export default {
@@ -53,6 +56,16 @@ export default {
     // 设置关键字高亮
     highLight (text, keyword) {
       return text.toLowerCase().split(keyword).join(`<span style="color: red;">${keyword}</span>`)
+    },
+    // 点击键盘或回车按钮触发
+    handleSearch (q) {
+      // 跳转到搜索页面
+      this.$router.push({
+        name: 'search-result',
+        params: {
+          q
+        }
+      })
     }
   }
 }
