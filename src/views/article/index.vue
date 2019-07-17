@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <!-- 头部 -->
-    <van-nav-bar
+  <div class="detail-wrap">
+      <van-nav-bar
       class="result-nav"
       title="详情页"
       left-arrow
       @click-left="$router.back()"
-    />
-    <AuthInfo class="auth-wrap"/>
-    <CommentList/>
-    <MoreAction/>
-    <RecommendArticle/>
-    <ReleaseComments/>
-    <ReplyList/>
+      />
+    <div class="detail-content">
+      <AuthInfo
+        :articles="articles"
+        class="auth-wrap"
+      />
+      <CommentList/>
+      <MoreAction/>
+      <RecommendArticle/>
+      <ReleaseComments/>
+      <ReplyList/>
+    </div>
   </div>
 </template>
 
@@ -36,6 +40,7 @@ export default {
   },
   data () {
     return {
+      articles: {}
     }
   },
 
@@ -44,14 +49,20 @@ export default {
   },
   computed: {},
   methods: {
-    getArticle () {
-      getArticleDetail()
+    // 初始化获取文章详情
+    async getArticle () {
+      const data = await getArticleDetail(this.$route.params.articleId)
+      // console.log(data)
+      this.articles = data
     }
   }
 }
 </script>
 
 <style lang='less' scoped>
+.detail-content {
+    padding: 20px;
+}
 .van-nav-bar__title, .van-nav-bar .van-icon {
   color: #fff;
 }

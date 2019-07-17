@@ -1,14 +1,14 @@
 <template>
   <div class="auth-info">
     <div class="base-info">
-      <img src="http://toutiao.meiduo.site/FuDXeRy6pZqMIr5ZAAW8x7_xuKYj" class="auth-photo" alt="">
+      <img :src="articles.aut_photo" class="auth-photo" alt="">
       <div>
-        <p>作者</p>
-        <p>发布时间</p>
+        <p>{{ articles.aut_name }}</p>
+        <p>{{ articles.pubdate | relativeTime }}</p>
       </div>
     </div>
     <div>
-      <van-button size="mini" type="danger">关注</van-button>
+      <van-button class="base-btn" size="mini" type="danger">关注</van-button>
     </div>
   </div>
 </template>
@@ -16,7 +16,12 @@
 <script>
 export default {
   name: 'AuthInfo',
-
+  props: {
+    articles: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
     }
