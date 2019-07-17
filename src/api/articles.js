@@ -38,3 +38,11 @@ export const dislikeArticles = articlesID => {
     }
   })
 }
+
+// 获取文章详情
+export const getArticleDetail = articlesID => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/articles/${articlesID}`
+  })
+}
