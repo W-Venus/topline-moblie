@@ -53,7 +53,7 @@ export default {
     return {
       searcheText: '', // 搜索框绑定的内容
       searchList: [], // 联想建议自动补全数据列表
-      histories: JSON.parse(window.localStorage.getItem('search-histories')), // 初始历史记录
+      histories: [], // 初始历史记录
       isDelShow: false // 控制历史记录删除按钮的显示与隐藏
     }
   },
@@ -80,6 +80,12 @@ export default {
       deep: true
     }
   },
+  // deactivated () {
+  //   this.$destroy()
+  // },
+  mounted () {
+    this.histories = JSON.parse(window.localStorage.getItem('search-histories'))
+  },
   methods: {
     // 设置关键字高亮
     highLight (text, keyword) {
@@ -94,8 +100,6 @@ export default {
       }
       // 将数据存到历史记录数组中
       this.histories.unshift(q)
-      // 保存去重后的历史记录到本地
-      window.localStorage.setItem('search-histories', JSON.stringify([...new Set(this.histories)]))
       // 跳转到搜索页面
       this.$router.push({
         name: 'search-result',

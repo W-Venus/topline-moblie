@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- 头部 -->
-    <van-nav-bar class="home-nav" title="首页" fixed/>
+    <van-nav-bar class="home-nav" title="首页" fixed>
+      <van-icon name="search" slot="right" @click="$router.push('/search')"/>
+    </van-nav-bar>
     <!-- /头部 -->
     <van-tabs class="channel-tabs" v-model="active">
       <!-- 使用组件标签页的插槽来设置图标 -->
@@ -280,7 +282,7 @@ export default {
 .channel-tabs /deep/ .van-tabs__content {
   margin-top: 92px;
 }
-.van-nav-bar__title {
+.van-nav-bar__title, .van-nav-bar .van-icon {
   color: #fff;
 }
 .home-nav {
