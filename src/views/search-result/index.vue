@@ -14,6 +14,7 @@
         @load="onLoad"
         >
     <van-cell
+        @click="$router.push('/article/:articleId')"
         v-for="item in articles"
         :key="item.art_id"
         :title="item.title"
