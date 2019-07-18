@@ -13,6 +13,10 @@
         class="auth-wrap"
       />
       <div v-html="articles.content"></div>
+<<<<<<< HEAD
+=======
+      <CommentList/>
+>>>>>>> origin/master
       <MoreAction/>
       <CommentList/>
       <RecommendArticle/>
