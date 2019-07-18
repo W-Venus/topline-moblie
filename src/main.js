@@ -9,6 +9,8 @@ import 'vant/lib/index.css'
 import 'amfe-flexible'
 // 加载过滤器文件
 import relativetime from './filters/relative-time'
+// 加载登录验证,挂载到原型
+import checkLogin from '@/utils/check-login'
 
 Vue.use(Vant)
 // 封装一个定时器
@@ -19,7 +21,8 @@ Vue.prototype.$sleep = time => {
     }, time)
   })
 }
-
+// 挂载到原型
+Vue.prototype.$checkLogin = checkLogin
 // 注册过滤器
 Vue.filter('relativeTime', relativetime)
 // 按需导入组件

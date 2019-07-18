@@ -13,8 +13,8 @@
         class="auth-wrap"
       />
       <div v-html="articles.content"></div>
-      <CommentList/>
       <MoreAction/>
+      <CommentList/>
       <RecommendArticle/>
       <ReleaseComments/>
       <ReplyList/>

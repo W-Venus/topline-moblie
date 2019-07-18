@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <p>更多操作</p>
+  <div class="action-wrap">
+    <van-button icon="thumb-circle-o" type="default">点赞</van-button>
+    <van-button icon="browsing-history-o" type="default">不喜欢</van-button>
   </div>
 </template>
 
@@ -20,5 +21,8 @@ export default {
 </script>
 
 <style lang='less' scoped>
-
+.action-wrap {
+  display: flex;
+  justify-content: space-around;
+}
 </style>
