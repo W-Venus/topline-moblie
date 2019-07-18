@@ -46,3 +46,41 @@ export const getArticleDetail = articlesID => {
     url: `/app/v1_0/articles/${articlesID}`
   })
 }
+
+// 对文章点赞
+export const likeArticle = articlesID => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/likings',
+    data: {
+      target: articlesID
+    }
+  })
+}
+
+// 对文章取消点赞
+export const unlikeArticle = articlesID => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/likings/${articlesID}`
+  })
+}
+
+// 对文章不喜欢
+export const like = articlesID => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/dislikes',
+    data: {
+      target: articlesID
+    }
+  })
+}
+
+// 取消对文章不喜欢
+export const dislike = articlesID => {
+  return request({
+    method: 'DELETE',
+    url: ` /app/v1_0/article/dislikes/${articlesID}`
+  })
+}
