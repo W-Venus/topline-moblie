@@ -80,9 +80,7 @@ export default {
       deep: true
     }
   },
-  // deactivated () {
-  //   this.$destroy()
-  // },
+  // 初始化从本地存储中拿数据
   mounted () {
     this.histories = JSON.parse(window.localStorage.getItem('search-histories'))
   },

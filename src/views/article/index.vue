@@ -7,10 +7,12 @@
       @click-left="$router.back()"
       />
     <div class="detail-content">
+      <h2 class="article-title">{{ articles.title }}</h2>
       <AuthInfo
         :articles="articles"
         class="auth-wrap"
       />
+      <div v-html="articles.content"></div>
       <CommentList/>
       <MoreAction/>
       <RecommendArticle/>
