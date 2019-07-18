@@ -16,8 +16,8 @@
       <MoreAction
         :articles="articles"
       />
-      <CommentList/>
-      <RecommendArticle/>
+      <CommentList :articleId="articles"/>
+      <!-- <RecommendArticle/> -->
       <ReleaseComments/>
       <ReplyList/>
     </div>
@@ -28,7 +28,7 @@
 import AuthInfo from './components/auth-info'
 import MoreAction from './components/more-action'
 import CommentList from './components/comment-list'
-import RecommendArticle from './components/recommend-article'
+// import RecommendArticle from './components/recommend-article'
 import ReleaseComments from './components/release-comments'
 import ReplyList from './components/replylist'
 import { getArticleDetail } from '@/api/articles'
@@ -38,7 +38,7 @@ export default {
     AuthInfo,
     MoreAction,
     CommentList,
-    RecommendArticle,
+    // RecommendArticle,
     ReleaseComments,
     ReplyList
   },

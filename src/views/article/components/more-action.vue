@@ -31,9 +31,11 @@ export default {
   },
   created () {},
   computed: {
+    // 点赞的状态
     islikeShow () {
       return this.articles.attitude === 1
     },
+    // 不喜欢的状态
     isDisLike () {
       return this.articles.attitude === 0
     }
@@ -47,11 +49,11 @@ export default {
       }
       // 如果已经点赞,则点击之后取消点赞
       if (this.articles.attitude === 1) {
-        await unlikeArticle (this.articles.art_id)
+        await unlikeArticle(this.articles.art_id)
         this.articles.attitude = -1
       } else {
         // 如果没有点赞,则去点赞
-        await likeArticle (this.articles.art_id)
+        await likeArticle(this.articles.art_id)
         this.articles.attitude = 1
       }
     },
