@@ -19,6 +19,7 @@
       <!-- @is-replylist-show 表示监听一个事件 -->
       <CommentList @is-replylist-show="handleIsReplyShow" :source="this.articleId"/>
       <ReplyList v-model="isReplyShow" :comment-id="commentId"/>
+      <write-comment/>
     </div>
   </div>
 </template>
@@ -28,6 +29,7 @@ import AuthInfo from './components/auth-info'
 import MoreAction from './components/more-action'
 import CommentList from './components/comment-list'
 import ReplyList from './components/replylist'
+import WriteComment from './components/write-comments'
 import { getArticleDetail } from '@/api/articles'
 export default {
   name: 'ArticleDetail',
@@ -35,7 +37,8 @@ export default {
     AuthInfo,
     MoreAction,
     CommentList,
-    ReplyList
+    ReplyList,
+    WriteComment
   },
   data () {
     return {
