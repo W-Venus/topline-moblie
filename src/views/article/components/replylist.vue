@@ -6,15 +6,18 @@
       :style="{ height: '90%' }"
     >
       <comment-list v-if="value" ref="comment-list" :source="commentId" :isArticle="false" />
+      <write-comment :target="commentId" />
     </van-popup>
 </template>
 
 <script>
 import CommentList from './comment-list'
+import WriteComment from './write-comments'
 export default {
   name: 'ReplyList',
   components: {
-    CommentList
+    CommentList,
+    WriteComment
   },
   props: {
     value: {

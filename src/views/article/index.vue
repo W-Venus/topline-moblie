@@ -19,7 +19,7 @@
       <!-- @is-replylist-show 表示监听一个事件 -->
       <CommentList @is-replylist-show="handleIsReplyShow" :source="this.articleId"/>
       <ReplyList v-model="isReplyShow" :comment-id="commentId"/>
-      <write-comment/>
+      <write-comment :target="this.articleId" />
     </div>
   </div>
 </template>
@@ -47,7 +47,15 @@ export default {
       isReplyShow: false // 控制回复弹框的展示与隐藏
     }
   },
-
+  // 依赖注入
+  /*使用方式：
+   *  1. 在组件中使用 provide 向后代提供数据
+   *  2. 然后在后代组件送使用 inject 声明接收祖先组件提供的数据*/
+  provide: function () {
+    return {
+      articleId: this.$route.params.articleId
+    }
+  },
   created () {
     this.getArticle()
   },

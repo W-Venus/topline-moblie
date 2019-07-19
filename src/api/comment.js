@@ -40,3 +40,20 @@ export const unCommentLike = commentId => {
     url: `/app/v1_0/comment/likings/${commentId}`
   })
 }
+
+// 添加评论或评论回复
+export const addComment = ({
+  target,
+  content,
+  artId
+}) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comments',
+    data: {
+      target, // 文章id或评论id
+      content, // 评论内容
+      art_id: artId // 文章id，对评论内容发表回复时，需要传递此参数，表明所属文章id。对文章进行评论，不要传此参数。
+    }
+  })
+}

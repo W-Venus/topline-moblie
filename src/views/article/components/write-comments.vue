@@ -10,24 +10,43 @@
       <van-button
         size="small"
         :disabled="!content.length"
+        @click="handleAddComment"
       >发布</van-button>
     </div>
   </div>
 </template>
 
 <script>
+import { addComment } from '@/api/comment'
 export default {
   name: 'WriteComment',
-
+  props: {
+    // 当前点击的文章id
+    target: {
+      type: [Number, String],
+      required: true
+    }
+  },
   data () {
     return {
       content: ''
     }
   },
-
+  inject: ['articleId'],
   created () {},
   computed: {},
-  methods: {}
+  methods: {
+    async handleAddComment () {
+      // 对文章进行评论
+      const data = await addComment({
+        target: this.target, // 文章或评论的id
+        content: this.content,
+        artId: this.articleId // 文章id,对评论进行回复时需要传
+      })
+      // console.log(data)
+      this.$router.go(0) // 刷新页面
+    }
+  }
 }
 </script>
 
