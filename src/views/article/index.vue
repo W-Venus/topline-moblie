@@ -16,7 +16,7 @@
       <MoreAction
         :articles="articles"
       />
-      <CommentList :articleId="articles"/>
+      <CommentList :source="this.articleId"/>
       <!-- <RecommendArticle/> -->
       <ReleaseComments/>
       <ReplyList/>
@@ -51,7 +51,11 @@ export default {
   created () {
     this.getArticle()
   },
-  computed: {},
+  computed: {
+    articleId () {
+      return this.$route.params.articleId.toString()
+    }
+  },
   methods: {
     // 初始化获取文章详情
     async getArticle () {

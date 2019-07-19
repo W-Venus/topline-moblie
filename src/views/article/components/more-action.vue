@@ -44,7 +44,7 @@ export default {
     async handleLike () {
       // 判断是否登录
       // 如果没有登录,则去登录
-      if (!this.$checkLogin) {
+      if (!this.$checkLogin()) {
         return
       }
       // 如果已经点赞,则点击之后取消点赞
@@ -58,7 +58,7 @@ export default {
       }
     },
     async handleDisLike () {
-      if (!this.$checkLogin) {
+      if (!this.$checkLogin()) {
         return
       }
       // 如果已经点了不喜欢,则点击之后取消不喜欢

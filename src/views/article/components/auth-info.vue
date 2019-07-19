@@ -39,26 +39,25 @@ export default {
     async handleFollow () {
       // 判断是否登录
       // 如果没有登录,提示去登录
-      if (this.$checkLogin()) {
-        this.isFollowing = true
-        try {
-          // 判断关注状态
-          // 如果关注了,点击之后,发请求取消关注
-          if (this.articles.is_followed) {
-            await unFollowUser(this.articles.aut_id)
-            // 更改articles.is_followed状态
-            this.articles.is_followed = false
-          } else {
-            // 如果没有关注,发请求关注
-            await followUser(this.articles.aut_id)
-            this.articles.is_followed = true
-          }
-          this.isFollowing = false
-        } catch (err) {
-          this.$toast.fail('操作失败')
+      if (!this.$checkLogin()) {
+        return
+      }
+      this.isFollowing = true
+      try {
+        // 判断关注状态
+        // 如果关注了,点击之后,发请求取消关注
+        if (this.articles.is_followed) {
+          await unFollowUser(this.articles.aut_id)
+          // 更改articles.is_followed状态
+          this.articles.is_followed = false
+        } else {
+          // 如果没有关注,发请求关注
+          await followUser(this.articles.aut_id)
+          this.articles.is_followed = true
         }
-      } else {
-        this.$checkLogin()
+        this.isFollowing = false
+      } catch (err) {
+        this.$toast.fail('操作失败')
       }
     }
   }
@@ -71,6 +70,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-size: 28px;
+  z-index: 1;
    .base-info {
      display: flex;
      align-items: center;

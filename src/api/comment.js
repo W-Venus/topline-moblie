@@ -13,11 +13,30 @@ export const getComment = ({
   return request({
     method: 'GET',
     url: '/app/v1_0/comments',
-    query: {
+    params: {
       type: isArticle ? 'a' : 'c',
       source,
       offset,
       limit
     }
+  })
+}
+
+// 对评论或评论的回复点赞
+export const commentLike = commentId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comment/likings',
+    data: {
+      target: commentId
+    }
+  })
+}
+
+// 取消对评论或评论的回复点赞
+export const unCommentLike = commentId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/comment/likings${commentId}`
   })
 }
