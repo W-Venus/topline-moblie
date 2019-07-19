@@ -16,8 +16,9 @@
       <MoreAction
         :articles="articles"
       />
-      <CommentList :source="this.articleId"/>
-      <ReplyList/>
+      <!-- @is-replylist-show 表示监听一个事件 -->
+      <CommentList @is-replylist-show="handleIsReplyShow" :source="this.articleId"/>
+      <ReplyList v-model="isReplyShow" :comment-id="commentId"/>
     </div>
   </div>
 </template>
@@ -38,7 +39,9 @@ export default {
   },
   data () {
     return {
-      articles: {}
+      articles: {},
+      commentId: null, // 当前点击的评论的id
+      isReplyShow: false // 控制回复弹框的展示与隐藏
     }
   },
 
@@ -56,6 +59,11 @@ export default {
       const data = await getArticleDetail(this.$route.params.articleId)
       // console.log(data)
       this.articles = data
+    },
+    // 接收评论列表组件传回的id 并 设置回复组件状态为显示
+    handleIsReplyShow (id) {
+      this.commentId = id
+      this.isReplyShow = true
     }
   }
 }

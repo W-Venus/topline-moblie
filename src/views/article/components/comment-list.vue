@@ -29,7 +29,7 @@
           <p>
             <span>{{ item.pubdate | relativeTime }}</span>
             &nbsp;
-            <span>{{ item.reply_count }}回复</span>
+            <span @click="$emit('is-replylist-show', item.com_id.toString())">{{ item.reply_count }}回复</span>
           </p>
         </div>
       </van-cell>
@@ -73,7 +73,6 @@ export default {
         source: this.source
       })
       // console.log(data)
-      // this.commentlist = data.results
       // 判断返回数据是否为空
       if (!data.results.length) {
         // 停止loading
