@@ -37,6 +37,6 @@ export const commentLike = commentId => {
 export const unCommentLike = commentId => {
   return request({
     method: 'DELETE',
-    url: `/app/v1_0/comment/likings${commentId}`
+    url: `/app/v1_0/comment/likings/${commentId}`
   })
 }
