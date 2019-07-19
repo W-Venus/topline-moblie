@@ -19,7 +19,7 @@
         <div slot="default">
           <van-button
             @click="handleLike(item)"
-            icon="like-o"
+            :icon="item.is_liking ? 'like' : 'like-o'"
             size="mini"
             plain
           >{{ item.like_count }} 赞</van-button>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getComment } from '@/api/comment'
+import { getComment, commentLike, unCommentLike } from '@/api/comment'
 export default {
   name: 'CommentList',
   props: {
@@ -73,7 +73,7 @@ export default {
         isArticle: this.isArticle,
         source: this.source
       })
-      console.log(data)
+      // console.log(data)
       // this.commentlist = data.results
       // 判断返回数据是否为空
       if (!data.results.length) {
@@ -88,8 +88,18 @@ export default {
       // 更新offset,为了获取下一页数据
       this.offset = data.last_id
     },
-    handleLike (item) {
-      console.log(item)
+    async handleLike (item) {
+      // console.log(item)
+      const commentId = item.com_id
+      // 判断
+      // 如果是true,表示已经点赞,再点击则是取消点赞
+      if (item.is_liking) {
+        await unCommentLike(commentId)
+        item.is_liking = false
+      } else {
+        await commentLike(commentId)
+        item.is_liking = true
+      }
     }
   }
 }
