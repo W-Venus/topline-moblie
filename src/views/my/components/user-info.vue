@@ -1,11 +1,11 @@
 <template>
     <div>
     <van-cell-group class="user-info">
-        <van-cell class="base-info" is-link :border="false">
-        <div slot="title">
-            <img class="avatar" :src="userinfo.photo" alt="">
-            <span class="title">{{ userinfo.name }}</span>
-        </div>
+        <van-cell class="base-info" is-link :border="false" to="/userinfo">
+          <div slot="title">
+              <img class="avatar" :src="userinfo.photo" alt="">
+              <span class="title">{{ userinfo.name }}</span>
+          </div>
         </van-cell>
         <van-cell>{{ userinfo.intro }}</van-cell>
         <van-grid v-model="userinfo" class="data-info" :border="false">
@@ -59,7 +59,7 @@ export default {
   methods: {
     async loadUser() {
       const data = await getMyself()
-      console.log(data)
+      // console.log(data)
       this.userinfo = data
     }
   }

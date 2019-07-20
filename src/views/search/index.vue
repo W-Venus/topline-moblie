@@ -6,7 +6,9 @@
         placeholder="请输入搜索关键词"
         show-action
         @search="handleSearch(searcheText)"
-      />
+        @cancel="$router.back()"
+      >
+      </van-search>
     </form>
     <van-cell-group v-if="searcheText.trim()">
       <van-cell v-for="item in searchList" :key="item" :title="item" @click="handleSearch(item)">
