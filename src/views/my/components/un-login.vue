@@ -24,7 +24,7 @@ export default {}
     width: 140px;
     height: 140px;
     padding: 40px;
-    background-color: red;
+    background-color: #3296FA;
     border-radius: 100%;
     display: flex;
     justify-content: center;

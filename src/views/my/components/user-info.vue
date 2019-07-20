@@ -3,27 +3,28 @@
     <van-cell-group class="user-info">
         <van-cell class="base-info" is-link :border="false">
         <div slot="title">
-            <img class="avatar" src="http://toutiao.meiduo.site/FgSTA3msGyxp5-Oufnm5c0kjVgW7" alt="">
-            <span class="title">只是为了好玩儿</span>
+            <img class="avatar" :src="userinfo.photo" alt="">
+            <span class="title">{{ userinfo.name }}</span>
         </div>
         </van-cell>
-        <van-grid class="data-info" :border="false">
-        <van-grid-item>
-            <span class="count">1</span>
-            <span class="text">头条</span>
-        </van-grid-item>
-        <van-grid-item>
-            <span class="count">2</span>
-            <span class="text">关注</span>
-        </van-grid-item>
-        <van-grid-item>
-            <span class="count">3</span>
-            <span class="text">粉丝</span>
-        </van-grid-item>
-        <van-grid-item>
-            <span class="count">4</span>
-            <span class="text">获赞</span>
-        </van-grid-item>
+        <van-cell>{{ userinfo.intro }}</van-cell>
+        <van-grid v-model="userinfo" class="data-info" :border="false">
+          <van-grid-item>
+              <span class="count">{{ userinfo.art_count }}</span>
+              <span class="text">头条</span>
+          </van-grid-item>
+          <van-grid-item>
+              <span class="count">2</span>
+              <span class="text">关注</span>
+          </van-grid-item>
+          <van-grid-item>
+              <span class="count">{{ userinfo.fans_count }}</span>
+              <span class="text">粉丝</span>
+          </van-grid-item>
+          <van-grid-item>
+              <span class="count">{{ userinfo.follow_count }}</span>
+              <span class="text">获赞</span>
+          </van-grid-item>
         </van-grid>
     </van-cell-group>
     <!-- <van-cell-group>
@@ -38,13 +39,30 @@
             <van-cell title="消息通知" is-link />
             <van-cell title="用户反馈" is-link />
             <van-cell title="小智同学" is-link />
-            <van-cell title="系统设置" is-link to="/settings" />
+            <van-cell title="系统设置" is-link to="/setting" />
         </van-cell-group>
     </div>
 </template>
 
 <script>
+import { getMyself } from '@/api/user'
 export default {
+  name: 'UserInfo',
+  data () {
+    return {
+      userinfo: {} // 用户信息
+    }
+  },
+  created () {
+    this.loadUser()
+  },
+  methods: {
+    async loadUser() {
+      const data = await getMyself()
+      console.log(data)
+      this.userinfo = data
+    }
+  }
 }
 </script>
 
