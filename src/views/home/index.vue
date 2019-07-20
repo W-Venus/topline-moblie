@@ -66,12 +66,7 @@
       </van-tab>
     </van-tabs>
     <!-- 底部 -->
-    <van-tabbar v-model="footerTabs">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="search">问答</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">视频</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
-    </van-tabbar>
+    <app-tabbar/>
     <!-- /底部 -->
     <!-- 弹出层
     v-model 就等于 :value="" 和 @input="" 的简写

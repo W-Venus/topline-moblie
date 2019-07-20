@@ -11,7 +11,9 @@ import 'amfe-flexible'
 import relativetime from './filters/relative-time'
 // 加载登录验证,挂载到原型
 import checkLogin from '@/utils/check-login'
+import AppTabbar from './components/app-tabbar'
 
+Vue.component('app-tabbar', AppTabbar)
 Vue.use(Vant)
 // 封装一个定时器
 Vue.prototype.$sleep = time => {
