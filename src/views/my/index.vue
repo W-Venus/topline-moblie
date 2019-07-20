@@ -1,13 +1,20 @@
 <template>
   <div>
-    <app-tabbar/>
+    <un-login v-if="!$store.state.user" />
+    <user-info v-else />
+    <app-tabbar />
   </div>
 </template>
 
 <script>
+import UnLogin from './components/un-login'
+import UserInfo from './components/user-info'
 export default {
-  name: 'MyIndex',
-
+  name: 'My',
+  components: {
+    UnLogin,
+    UserInfo
+  },
   data () {
     return {
     }
@@ -19,6 +26,4 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
-
-</style>
+<style lang='less' scoped></style>

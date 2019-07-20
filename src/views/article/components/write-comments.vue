@@ -5,7 +5,8 @@
     </div>
     <div class="more-wrap">
       <van-icon
-        name="star-o"
+        @click="handleCollect"
+        :name="this.articles.is_collected ? 'star' : 'star-o'"
       ></van-icon>
       <van-button
         size="small"
@@ -18,6 +19,7 @@
 
 <script>
 import { addComment } from '@/api/comment'
+import { collectArticle, unCollectArticle } from '@/api/articles'
 export default {
   name: 'WriteComment',
   props: {
@@ -25,6 +27,10 @@ export default {
     target: {
       type: [Number, String],
       required: true
+    },
+    articles: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -33,18 +39,27 @@ export default {
     }
   },
   inject: ['articleId'],
-  created () {},
   computed: {},
   methods: {
     async handleAddComment () {
       // 对文章进行评论
-      await addComment({
+      const data = await addComment({
         target: this.target, // 文章或评论的id
         content: this.content,
         artId: this.articleId // 文章id,对评论进行回复时需要传
       })
       // console.log(data)
-      // this.$router.go(0) // 刷新页面
+    },
+    // 收藏文章
+    async handleCollect () {
+      // 判断,如果文章已经被收藏,再点击则是取消收藏
+      if (this.articles.is_collected) {
+        await unCollectArticle(this.articleId)
+        this.articles.is_collected = false
+      } else {
+        await collectArticle(this.articleId)
+        this.articles.is_collected = true
+      }
     }
   }
 }

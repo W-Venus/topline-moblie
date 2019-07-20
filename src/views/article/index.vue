@@ -19,7 +19,7 @@
       <!-- @is-replylist-show 表示监听一个事件 -->
       <CommentList @is-replylist-show="handleIsReplyShow" :source="this.articleId"/>
       <ReplyList v-model="isReplyShow" :comment-id="commentId"/>
-      <write-comment :target="this.articleId" />
+      <write-comment :articles="articles" :target="this.articleId" />
     </div>
   </div>
 </template>

@@ -81,6 +81,25 @@ export const like = articlesID => {
 export const dislike = articlesID => {
   return request({
     method: 'DELETE',
-    url: ` /app/v1_0/article/dislikes/${articlesID}`
+    url: `/app/v1_0/article/dislikes/${articlesID}`
+  })
+}
+
+// 收藏文章
+export const collectArticle = articlesID => {
+  return request({
+    method: 'POST',
+    url: `/app/v1_0/article/collections`,
+    data: {
+      target: articlesID
+    }
+  })
+}
+
+// 取消收藏文章
+export const unCollectArticle = articlesID => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/collections/${articlesID}`
   })
 }
