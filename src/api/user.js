@@ -52,6 +52,14 @@ export const getMyself = () => {
   })
 }
 
+// 获取用户个人资料
+export const getMyselfInfo = () => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/user/profile`
+  })
+}
+
 // 编辑用户照片资料（头像、身份证照片）
 export const editPhoto = formdata => {
   return request({
