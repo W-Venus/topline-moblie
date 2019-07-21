@@ -44,6 +44,11 @@ export default new Router({
       name: 'userinfo',
       path: '/userinfo',
       component: () => import('@/views/userinfo')
+    },
+    {
+      name: 'chat',
+      path: '/chat',
+      component: () => import('@/views/chat')
     }
   ]
 })

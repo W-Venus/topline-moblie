@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar
       class="result-nav"
-      title="个人信息"
+      title="我"
       left-text="返回"
       right-text="保存"
       left-arrow
