@@ -57,7 +57,7 @@ export default {
     this.loadUser()
   },
   methods: {
-    async loadUser() {
+    async loadUser () {
       const data = await getMyself()
       // console.log(data)
       this.userinfo = data
@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .user-info {
   .base-info {
     display: flex;

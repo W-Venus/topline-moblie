@@ -51,3 +51,43 @@ export const getMyself = () => {
     url: `/app/v1_0/user`
   })
 }
+
+// 编辑用户照片资料（头像、身份证照片）
+export const editPhoto = formdata => {
+  return request({
+    method: 'PATCH',
+    url: `/app/v1_0/user/photo`,
+    data: formdata
+  })
+}
+
+// 编辑用户除头像外的资料
+export const editInfo = ({
+  name = null,
+  photo = null,
+  gender = null,
+  birthday = null,
+  realname = null,
+  idnumber = null,
+  idcardfront = null,
+  idcardback = null,
+  idcardhandheld = null,
+  intro = null
+}) => {
+  return request({
+    method: 'PATCH',
+    url: `/app/v1_0/user/profile`,
+    data: {
+      name,
+      photo,
+      gender,
+      birthday,
+      real_name: realname,
+      id_number: idnumber,
+      id_card_front: idcardfront,
+      id_card_back: idcardback,
+      id_card_handheld: idcardhandheld,
+      intro
+    }
+  })
+}

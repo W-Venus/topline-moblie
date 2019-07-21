@@ -11,7 +11,6 @@
         <van-cell title="系统设置" is-link to="/settings" />
       </van-cell-group>
     </div>
-     
   </div>
 </template>
 
@@ -19,7 +18,7 @@
 export default {}
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .circle {
     width: 140px;
     height: 140px;
