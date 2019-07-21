@@ -4,6 +4,12 @@ import axios from 'axios'
 import store from '@/store'
 // 加载json-bigint
 import JSONbig from 'json-bigint'
+import router from '@/router'
+
+// 创建一个新的请求对象
+const refreshTokenRequest = axios.create({
+  baseURL: 'http://ttapi.research.itcast.cn/'
+})
 // 配置基准路径
 const request = axios.create({
   // baseURL: 'http://toutiao.course.itcast.cn' // 本地接口
@@ -39,7 +45,36 @@ request.interceptors.request.use(function (config) {
 // 如果响应结果对象中没有 data，则不作任何处理，直接原样返回这个数据
 request.interceptors.response.use(function (response) {
   return response.data.data || response.data
-}, function (error) {
+}, async (error) => {
+  // 如果有返回值,且状态码是401,说明token过期或无效
+  if (error.response && error.response.status === 401) {
+    // 获取用户信息,用来判断是否登录,也就是是否拥有token 和 refresh_token
+    const user = store.state.user
+    if (!user) {
+      // 没有登录,跳转至登录页
+      return router.push({ name: 'login' })
+    }
+    try {
+      // 如果登录了,说明有token,请求刷新token
+      const res = await refreshTokenRequest({
+        method: 'put',
+        url: '/app/v1_0/authorizations',
+        headers: {
+          Authorization: `Bearer ${user.refresh_token}`
+        }
+      })
+      // 刷新token成功后
+      store.commit('saveItem', {
+        token: res.data.data.token, // 重新获取的访问token
+        refresh_token: user.refresh_token // 原来的刷新token
+      })
+      // 使用之前的请求对象把原来因为401停止的请求再继续发出去
+      return request(error.config)
+    } catch (err) {
+      // 刷新失败,跳转至登录页
+      return router.push({ name: 'login' })
+    }
+  }
   return Promise.reject(error)
 })
 
