@@ -1,3 +1,9 @@
+/*
+ * @Date: 2020-09-28 10:58:44
+ * @Description: Do not edit
+ * @LastEditors: Please set LastEditors
+ * @Author: chen
+ */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -12,8 +18,10 @@ import relativetime from './filters/relative-time'
 // 加载登录验证,挂载到原型
 import checkLogin from '@/utils/check-login'
 import AppTabbar from './components/app-tabbar'
+import LuckDraw from 'vue-luck-draw'
 
 Vue.component('app-tabbar', AppTabbar)
+Vue.use(LuckDraw)
 Vue.use(Vant)
 // 封装一个定时器
 Vue.prototype.$sleep = time => {

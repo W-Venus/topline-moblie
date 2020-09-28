@@ -1,3 +1,9 @@
+/*
+ * @Date: 2020-09-28 10:58:44
+ * @Description: Do not edit
+ * @LastEditors: Please set LastEditors
+ * @Author: chen
+ */
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -9,6 +15,11 @@ export default new Router({
       name: 'home',
       path: '/',
       component: () => import('@/views/home')
+    },
+    {
+      name: 'choujiang',
+      path: '/choujiang',
+      component: () => import('@/views/choujiang/index.vue')
     },
     {
       name: 'login',

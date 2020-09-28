@@ -18,6 +18,7 @@
     "socket.io-client": "^2.2.0",
     "vant": "^2.0.6",
     "vue": "^2.6.10",
+    "vue-luck-draw": "^3.0.9",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
